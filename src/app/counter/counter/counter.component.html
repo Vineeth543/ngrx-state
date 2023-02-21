@@ -1,0 +1,10 @@
+<div class="counter-output">
+  <app-counter-output [counter]="counter"></app-counter-output>
+</div>
+<div class="counter-buttons">
+  <app-counter-buttons
+    (increment)="onIncrement()"
+    (decrement)="onDecrement()"
+    (reset)="onReset()"
+  ></app-counter-buttons>
+</div>
