@@ -8,3 +8,5 @@ export const customCounter = createAction(
   'customCounter',
   props<{ counter: number }>()
 );
+
+export const changeName = createAction('changeName');

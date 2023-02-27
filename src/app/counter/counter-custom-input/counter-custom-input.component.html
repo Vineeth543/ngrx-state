@@ -1,4 +1,14 @@
-<div class="d-flex justify-content-center gap-2">
-  <input type="number" min="0" placeholder="Enter value" [(ngModel)]="value" />
+<div class="d-flex flex-column align-items-center w-25 m-auto gap-2">
+  <input
+    type="number"
+    min="0"
+    placeholder="Enter value"
+    class="w-25"
+    [(ngModel)]="value"
+  />
   <button class="btn btn-primary" (click)="add()">Add to counter</button>
+  <h3>{{ name$ | async }}</h3>
+  <button class="btn btn-outline-primary" (click)="changeName()">
+    Change Name
+  </button>
 </div>
