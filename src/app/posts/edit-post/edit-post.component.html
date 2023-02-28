@@ -1,7 +1,7 @@
 <h1 class="text-center">Edit Post</h1>
 <hr />
 <!-- <ng-container *ngIf="{ id: id$ | async, post: post$ | async } as postData"> -->
-<form [formGroup]="postForm">
+<form [formGroup]="postForm" (ngSubmit)="onSubmit()">
   <div class="mb-3">
     <label class="mb-2">Title</label>
     <input type="text" class="form-control" formControlName="title" />

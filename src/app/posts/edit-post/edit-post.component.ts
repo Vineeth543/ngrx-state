@@ -3,9 +3,10 @@ import { Observable, map, tap } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { Post } from 'src/app/models/posts.model';
 import { AppState } from 'src/app/store/app.state';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { getPostById } from '../post-list/state/posts.selector';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { updatePost } from '../post-list/state/posts.actions';
 
 @Component({
   selector: 'app-edit-post',
@@ -19,7 +20,11 @@ export class EditPostComponent implements OnInit {
   // post$: Observable<Post> = new Observable<Post>();
   // id$: Observable<number> = new Observable<number>();
 
-  constructor(private route: ActivatedRoute, private store: Store<AppState>) {}
+  constructor(
+    private route: ActivatedRoute,
+    private store: Store<AppState>,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     // this.id$ = this.route.paramMap.pipe(
@@ -82,5 +87,18 @@ export class EditPostComponent implements OnInit {
         return 'Description must atleast have 10 characters';
       }
     }
+  }
+
+  onSubmit(): void {
+    if (!this.postForm.valid) return;
+    const title = this.postForm.value.title;
+    const description = this.postForm.value.description;
+    const post: Post = {
+      id: this.post.id,
+      title,
+      description,
+    };
+    this.store.dispatch(updatePost({ post }));
+    this.router.navigate(['/posts']);
   }
 }

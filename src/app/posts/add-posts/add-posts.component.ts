@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { Router } from '@angular/router';
+import { Component } from '@angular/core';
 import { Post } from 'src/app/models/posts.model';
 import { AppState } from 'src/app/store/app.state';
 import { addPost } from '../post-list/state/posts.actions';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-posts',
@@ -13,7 +14,7 @@ import { addPost } from '../post-list/state/posts.actions';
 export class AddPostsComponent {
   postForm!: FormGroup;
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AppState>, private router: Router) {}
 
   ngOnInit(): void {
     this.postForm = new FormGroup({
@@ -30,13 +31,12 @@ export class AddPostsComponent {
 
   onAddPost(): void {
     if (!this.postForm.valid) return;
-
     const post: Post = {
       title: this.postForm.value.title,
       description: this.postForm.value.description,
     };
-
     this.store.dispatch(addPost({ post }));
+    this.router.navigate(['/posts']);
   }
 
   showTitleErrors(): string | void {
