@@ -5,7 +5,7 @@ export const decrement = createAction('decrement');
 export const reset = createAction('reset');
 
 export const customCounter = createAction(
-  'customCounter',
+  'Custom Counter',
   props<{ counter: number }>()
 );
 

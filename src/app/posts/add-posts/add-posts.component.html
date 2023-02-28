@@ -1,0 +1,31 @@
+<h1 class="text-center">Add Post</h1>
+<hr />
+<form [formGroup]="postForm" (ngSubmit)="onAddPost()">
+  <div class="mb-3">
+    <label class="mb-2">Title</label>
+    <input type="text" class="form-control" formControlName="title" />
+    <div
+      *ngIf="showTitleErrors()"
+      class="p-1 mt-2 text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-3"
+    >
+      {{ showTitleErrors() }}
+    </div>
+  </div>
+  <div class="mb-3">
+    <label class="mb-2">Description</label>
+    <textarea
+      type="text"
+      class="form-control"
+      formControlName="description"
+    ></textarea>
+    <div
+      *ngIf="showDescriptionErrors()"
+      class="p-1 mt-2 text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-3"
+    >
+      {{ showDescriptionErrors() }}
+    </div>
+  </div>
+  <div>
+    <button class="btn btn-info" [disabled]="!postForm.valid">Add Post</button>
+  </div>
+</form>
