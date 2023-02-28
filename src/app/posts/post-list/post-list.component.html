@@ -2,28 +2,44 @@
   <div class="col-md-6">
     <h1>Posts List</h1>
     <button class="btn btn-primary my-2" routerLink="add">New</button>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Id</th>
-          <th>Title</th>
-          <th>Description</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let post of posts$ | async">
-          <td>{{ post.id }}</td>
-          <td>{{ post.title }}</td>
-          <td>{{ post.description }}</td>
-          <td>
-            <button class="btn btn-success" routerLink="edit/{{ post.id }}">
-              Update
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <ng-container *ngIf="posts$ | async as posts; else loader">
+      <ng-container *ngIf="posts.length; else nodata">
+        <table class="table table-striped text-center">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let post of posts">
+              <td>{{ post.id }}</td>
+              <td>{{ post.title }}</td>
+              <td>{{ post.description }}</td>
+              <td class="d-flex gap-2 justify-content-center">
+                <button class="btn btn-success" routerLink="edit/{{ post.id }}">
+                  Update
+                </button>
+                <button
+                  class="btn btn-danger"
+                  (click)="onDeletePost(post.id || 0)"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </ng-container>
+    </ng-container>
+    <ng-template #loader>
+      <h2 class="text-center">Loading... ⏰</h2>
+    </ng-template>
+    <ng-template #nodata>
+      <h2 class="text-center">No data present. 😞</h2>
+    </ng-template>
   </div>
   <div class="col-md-6">
     <router-outlet></router-outlet>

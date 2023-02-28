@@ -6,3 +6,5 @@ import { Post } from 'src/app/models/posts.model';
 export const addPost = createAction('add post', props<{ post: Post }>());
 
 export const updatePost = createAction('update post', props<{ post: Post }>());
+
+export const deletePost = createAction('delete post', props<{ id: number }>());

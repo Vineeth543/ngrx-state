@@ -46,7 +46,7 @@ export class EditPostComponent implements OnInit {
       this.store
         .select(getPostById(Number(params.get('id'))))
         .subscribe((post) => {
-          this.post = post;
+          this.post = post ? post : { id: 0, title: '', description: '' };
           this.createForm();
         });
     });
@@ -54,11 +54,11 @@ export class EditPostComponent implements OnInit {
 
   createForm() {
     this.postForm = new FormGroup({
-      title: new FormControl(this.post.title, [
+      title: new FormControl(this.post?.title, [
         Validators.required,
         Validators.minLength(6),
       ]),
-      description: new FormControl(this.post.description, [
+      description: new FormControl(this.post?.description, [
         Validators.required,
         Validators.minLength(10),
       ]),
