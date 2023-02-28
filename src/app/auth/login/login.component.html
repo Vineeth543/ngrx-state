@@ -1,0 +1,29 @@
+<div class="w-50 m-auto">
+  <h1 class="text-center">Login</h1>
+  <hr />
+  <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+    <div class="mb-3">
+      <label class="mb-2">Email</label>
+      <input type="email" class="form-control" formControlName="email" />
+      <div
+        *ngIf="showEmailErrors()"
+        class="p-1 mt-2 text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-3"
+      >
+        {{ showEmailErrors() }}
+      </div>
+    </div>
+    <div class="mb-3">
+      <label class="mb-2">Password</label>
+      <input type="password" class="form-control" formControlName="password" />
+      <div
+        *ngIf="showPasswordErrors()"
+        class="p-1 mt-2 text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-3"
+      >
+        {{ showPasswordErrors() }}
+      </div>
+    </div>
+    <div>
+      <button class="btn btn-info" [disabled]="!loginForm.valid">Login</button>
+    </div>
+  </form>
+</div>
