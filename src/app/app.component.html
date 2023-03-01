@@ -3,6 +3,12 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12">
+      <div
+        *ngIf="errorMessage$ | async as error"
+        class="alert alert-danger w-50 m-auto my-3"
+      >
+        {{ error }}
+      </div>
       <router-outlet></router-outlet>
     </div>
   </div>
