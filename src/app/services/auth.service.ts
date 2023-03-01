@@ -1,6 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { User } from '../models/user.model';
+import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { AuthResponseData } from '../models/authResponseData.model';
 
 @Injectable({
   providedIn: 'root',
@@ -8,8 +11,8 @@ import { environment } from 'src/environments/environment';
 export class AuthService {
   constructor(private http: HttpClient) {}
 
-  login(email: string, password: string) {
-    return this.http.post(
+  login(email: string, password: string): Observable<AuthResponseData> {
+    return this.http.post<AuthResponseData>(
       `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.FIREBASE_API_KEY}`,
       {
         email,
@@ -17,5 +20,11 @@ export class AuthService {
         returnSecureToken: true,
       }
     );
+  }
+
+  formatUser(data: AuthResponseData) {
+    const expiryDate = new Date(new Date().getTime() + +data.expiresIn * 1000);
+    const user = new User(data.email, data.idToken, data.localId, expiryDate);
+    return user;
   }
 }
