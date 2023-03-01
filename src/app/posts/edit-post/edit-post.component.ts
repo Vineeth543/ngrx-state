@@ -1,6 +1,6 @@
 import { Store } from '@ngrx/store';
-import { Observable, map, tap } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
+import { Observable, map, tap, Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Post } from 'src/app/models/posts.model';
 import { AppState } from 'src/app/store/app.state';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
@@ -13,9 +13,10 @@ import { updatePost } from '../post-list/state/posts.actions';
   templateUrl: './edit-post.component.html',
   styleUrls: ['./edit-post.component.less'],
 })
-export class EditPostComponent implements OnInit {
+export class EditPostComponent implements OnInit, OnDestroy {
   post!: Post;
   postForm!: FormGroup;
+  subscription!: Subscription[];
   // id: number = 0;
   // post$: Observable<Post> = new Observable<Post>();
   // id$: Observable<number> = new Observable<number>();
@@ -42,14 +43,18 @@ export class EditPostComponent implements OnInit {
     //   })
     // );
 
-    this.route.paramMap.subscribe((params: ParamMap) => {
-      this.store
-        .select(getPostById(Number(params.get('id'))))
-        .subscribe((post) => {
-          this.post = post ? post : { id: 0, title: '', description: '' };
-          this.createForm();
-        });
-    });
+    this.subscription.push(
+      this.route.paramMap.subscribe((params: ParamMap) => {
+        this.subscription.push(
+          this.store
+            .select(getPostById(Number(params.get('id'))))
+            .subscribe((post) => {
+              this.post = post ? post : { id: 0, title: '', description: '' };
+              this.createForm();
+            })
+        );
+      })
+    );
   }
 
   createForm() {
@@ -100,5 +105,11 @@ export class EditPostComponent implements OnInit {
     };
     this.store.dispatch(updatePost({ post }));
     this.router.navigate(['/posts']);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.forEach((subscription: Subscription) =>
+      subscription.unsubscribe()
+    );
   }
 }

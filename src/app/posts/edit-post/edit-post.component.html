@@ -5,10 +5,7 @@
   <div class="mb-3">
     <label class="mb-2">Title</label>
     <input type="text" class="form-control" formControlName="title" />
-    <div
-      *ngIf="showTitleErrors()"
-      class="p-1 mt-2 text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-3"
-    >
+    <div *ngIf="showTitleErrors()" class="alert alert-danger p-1 mt-2">
       {{ showTitleErrors() }}
     </div>
   </div>
@@ -19,10 +16,7 @@
       class="form-control"
       formControlName="description"
     ></textarea>
-    <div
-      *ngIf="showDescriptionErrors()"
-      class="p-1 mt-2 text-danger-emphasis bg-danger-subtle border border-danger-subtle rounded-3"
-    >
+    <div *ngIf="showDescriptionErrors()" class="alert alert-danger p-1 mt-2">
       {{ showDescriptionErrors() }}
     </div>
   </div>
