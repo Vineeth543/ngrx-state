@@ -1,5 +1,6 @@
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { AppReducer } from './store/app.state';
 import { AppComponent } from './app.component';
 import { NgModule, isDevMode } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
@@ -13,7 +14,7 @@ import { AppRoutingModule, routingComponents } from './app-routing.module';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    StoreModule.forRoot({}),
+    StoreModule.forRoot(AppReducer),
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({ logOnly: !isDevMode() }),
   ],

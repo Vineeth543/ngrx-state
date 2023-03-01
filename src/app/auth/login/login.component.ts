@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/store/app.state';
+import { Component } from '@angular/core';
 import { loginStart } from '../state/auth.action';
+import { AppState } from 'src/app/store/app.state';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { setLoadingSpinner } from 'src/app/store/shared/shared.actions';
 
 @Component({
   selector: 'app-login',
@@ -52,6 +53,7 @@ export class LoginComponent {
     if (!this.loginForm.valid) return;
     const email = this.loginForm.get('email')?.value;
     const password = this.loginForm.get('password')?.value;
+    this.store.dispatch(setLoadingSpinner({ status: true }));
     this.store.dispatch(loginStart({ email, password }));
   }
 }
