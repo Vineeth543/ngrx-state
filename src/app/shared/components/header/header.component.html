@@ -18,33 +18,26 @@
             >Posts</a
           >
         </li>
-        <ng-container>
+        <ng-container *ngIf="!(isAuthenticated | async); else logout">
           <li class="nav-item">
-            <a
-              *ngIf="!(isAuthenticated | async)"
-              class="nav-link"
-              routerLink="/auth"
-              routerLinkActive="active"
+            <a class="nav-link" routerLink="/auth" routerLinkActive="active"
               >Login</a
             >
           </li>
           <li class="nav-item">
             <a
-              *ngIf="!(isAuthenticated | async)"
               class="nav-link"
+              routerLink="/auth/signup"
               routerLinkActive="active"
               >Signup</a
             >
           </li>
-          <li class="nav-item">
-            <a
-              *ngIf="isAuthenticated | async"
-              class="nav-link"
-              routerLinkActive="active"
-              >Logout</a
-            >
-          </li>
         </ng-container>
+        <ng-template #logout>
+          <li class="nav-item">
+            <a class="nav-link" routerLinkActive="active">Logout</a>
+          </li>
+        </ng-template>
       </ul>
     </div>
   </div>
