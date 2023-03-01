@@ -18,19 +18,33 @@
             >Posts</a
           >
         </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/auth" routerLinkActive="active"
-            >Login</a
-          >
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            routerLink="/auth/signup"
-            routerLinkActive="active"
-            >Signup</a
-          >
-        </li>
+        <ng-container>
+          <li class="nav-item">
+            <a
+              *ngIf="!(isAuthenticated | async)"
+              class="nav-link"
+              routerLink="/auth"
+              routerLinkActive="active"
+              >Login</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              *ngIf="!(isAuthenticated | async)"
+              class="nav-link"
+              routerLinkActive="active"
+              >Signup</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              *ngIf="isAuthenticated | async"
+              class="nav-link"
+              routerLinkActive="active"
+              >Logout</a
+            >
+          </li>
+        </ng-container>
       </ul>
     </div>
   </div>

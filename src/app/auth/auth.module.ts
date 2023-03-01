@@ -1,13 +1,10 @@
 import { NgModule } from '@angular/core';
+import { EffectsModule } from '@ngrx/effects';
 import { CommonModule } from '@angular/common';
+import { AuthEffects } from './state/auth.effects';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
-import { StoreModule } from '@ngrx/store';
-import { AUTH_STATE_NAME } from './state/auth.selector';
-import { AuthReducer } from './state/auth.reducer';
-import { EffectsModule } from '@ngrx/effects';
-import { AuthEffects } from './state/auth.effects';
 
 const routes: Routes = [
   {
@@ -24,9 +21,8 @@ const routes: Routes = [
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    EffectsModule.forFeature([AuthEffects]),
     RouterModule.forChild(routes),
-    StoreModule.forFeature(AUTH_STATE_NAME, AuthReducer),
+    EffectsModule.forFeature([AuthEffects]),
   ],
 })
 export class AuthModule {}
