@@ -22,7 +22,7 @@ export class PostListComponent {
     this.store.dispatch(loadPosts());
   }
 
-  onDeletePost(id: number): void {
+  onDeletePost(id: string): void {
     this.store.dispatch(deletePost({ id }));
     this.router.navigate(['posts']);
   }

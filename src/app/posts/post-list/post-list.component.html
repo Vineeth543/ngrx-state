@@ -15,7 +15,7 @@
           </thead>
           <tbody>
             <tr *ngFor="let post of posts">
-              <td>{{ post.id }}</td>
+              <td>{{ post.id?.slice(8, 14) | uppercase }}</td>
               <td>{{ post.title }}</td>
               <td>{{ post.description }}</td>
               <td class="d-flex gap-2 justify-content-center">
@@ -24,7 +24,7 @@
                 </button>
                 <button
                   class="btn btn-danger"
-                  (click)="onDeletePost(post.id || 0)"
+                  (click)="onDeletePost(post.id || '')"
                 >
                   Delete
                 </button>

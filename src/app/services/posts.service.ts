@@ -17,9 +17,8 @@ export class PostsService {
       .pipe(
         map((data) => {
           const posts: Post[] = [];
-          let id = 1;
           for (let key in data) {
-            posts.push({ id: id++, ...data[key] });
+            posts.push({ id: key, ...data[key] });
           }
           return posts;
         })
@@ -30,6 +29,16 @@ export class PostsService {
     return this.http.post<{ name: string }>(
       `https://angular-ngrx-c45dc-default-rtdb.firebaseio.com/posts.json`,
       post
+    );
+  }
+
+  updatePost(post: Post) {
+    const postData = {
+      [post.id as string]: { title: post.title, description: post.description },
+    };
+    return this.http.patch(
+      `https://angular-ngrx-c45dc-default-rtdb.firebaseio.com/posts.json`,
+      postData
     );
   }
 }
