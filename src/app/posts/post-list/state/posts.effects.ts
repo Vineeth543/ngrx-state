@@ -1,7 +1,7 @@
+import { map, mergeMap } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { concatMap, map, mergeMap } from 'rxjs';
 import { PostsService } from 'src/app/services/posts.service';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   addPost,
   addPostSuccess,
@@ -45,7 +45,7 @@ export class PsotsEffects {
   updatePost$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(updatePost),
-      concatMap((action) => {
+      mergeMap((action) => {
         return this.postsService
           .updatePost(action.post)
           .pipe(map(() => updatePostSuccess({ post: action.post })));
@@ -56,7 +56,7 @@ export class PsotsEffects {
   deletePost$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(deletePost),
-      concatMap((action) => {
+      mergeMap((action) => {
         return this.postsService
           .deletePost(action.id)
           .pipe(map(() => deletePostSuccess({ id: action.id })));

@@ -43,6 +43,7 @@ export class PostsService {
   }
 
   deletePost(id: string) {
+    console.log('Post delete initiated', id);
     return this.http.delete(
       `https://angular-ngrx-c45dc-default-rtdb.firebaseio.com/posts/${id}.json`
     );

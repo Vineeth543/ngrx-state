@@ -4,10 +4,11 @@ import { AppReducer } from './store/app.state';
 import { AppComponent } from './app.component';
 import { NgModule, isDevMode } from '@angular/core';
 import { AuthEffects } from './auth/state/auth.effects';
-import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { AuthTokenInterceptor } from './services/AuthToken.intercepter';
 import { AppRoutingModule, routingComponents } from './app-routing.module';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent, routingComponents],
@@ -19,7 +20,9 @@ import { AppRoutingModule, routingComponents } from './app-routing.module';
     EffectsModule.forRoot([AuthEffects]),
     StoreDevtoolsModule.instrument({ logOnly: !isDevMode() }),
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthTokenInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
