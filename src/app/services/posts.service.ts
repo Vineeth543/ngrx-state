@@ -41,4 +41,10 @@ export class PostsService {
       postData
     );
   }
+
+  deletePost(id: string) {
+    return this.http.delete(
+      `https://angular-ngrx-c45dc-default-rtdb.firebaseio.com/posts/${id}.json`
+    );
+  }
 }
