@@ -1,5 +1,5 @@
+import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { Observable, tap } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { AppState } from 'src/app/store/app.state';
 import { getCounter } from '../state/counter.selectors';
@@ -15,10 +15,6 @@ export class CounterOutputComponent implements OnInit {
   constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.counter$ = this.store.select(getCounter).pipe(
-      tap(() => {
-        console.log('Counter Increment Observable Fired.');
-      })
-    );
+    this.counter$ = this.store.select(getCounter).pipe();
   }
 }
