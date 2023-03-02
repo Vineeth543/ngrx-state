@@ -2,6 +2,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Component } from '@angular/core';
 import { AppState } from 'src/app/store/app.state';
+import { autoLogout } from 'src/app/auth/state/auth.action';
 import { isAuthenticated } from 'src/app/auth/state/auth.selector';
 
 @Component({
@@ -16,5 +17,10 @@ export class HeaderComponent {
 
   ngOnInit(): void {
     this.isAuthenticated = this.store.select(isAuthenticated);
+  }
+
+  onLogout(event: Event): void {
+    event.preventDefault();
+    this.store.dispatch(autoLogout());
   }
 }

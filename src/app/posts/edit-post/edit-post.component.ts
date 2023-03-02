@@ -1,12 +1,12 @@
 import { Store } from '@ngrx/store';
-import { Observable, map, tap, Subscription } from 'rxjs';
-import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Post } from 'src/app/models/posts.model';
 import { AppState } from 'src/app/store/app.state';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { getPostById } from '../post-list/state/posts.selector';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable, map, tap, Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { updatePost } from '../post-list/state/posts.actions';
+import { getPostById } from '../post-list/state/posts.selector';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-post',
@@ -16,7 +16,7 @@ import { updatePost } from '../post-list/state/posts.actions';
 export class EditPostComponent implements OnInit, OnDestroy {
   post!: Post;
   postForm!: FormGroup;
-  subscription!: Subscription[];
+  subscription: Subscription[] = new Array<Subscription>();
   // id: number = 0;
   // post$: Observable<Post> = new Observable<Post>();
   // id$: Observable<number> = new Observable<number>();

@@ -20,7 +20,10 @@
         </li>
         <ng-container *ngIf="!(isAuthenticated | async); else logout">
           <li class="nav-item">
-            <a class="nav-link" routerLink="/auth" routerLinkActive="active"
+            <a
+              class="nav-link"
+              routerLink="/auth/login"
+              routerLinkActive="active"
               >Login</a
             >
           </li>
@@ -34,8 +37,14 @@
           </li>
         </ng-container>
         <ng-template #logout>
-          <li class="nav-item">
-            <a class="nav-link" routerLinkActive="active">Logout</a>
+          <li class="nav-item cursor-not-allowed">
+            <a
+              class="nav-link cursor-not-allowed"
+              routerLink="/auth/login"
+              routerLinkActive="active"
+              (click)="onLogout($event)"
+              >Logout</a
+            >
           </li>
         </ng-template>
       </ul>
