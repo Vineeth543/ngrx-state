@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { AuthGuard } from './services/auth.guard';
 import { HomeComponent } from './home/home.component';
 import { RouterModule, Routes } from '@angular/router';
 import { HeaderComponent } from './shared/components/header/header.component';
@@ -16,6 +17,7 @@ const routes: Routes = [
     path: 'posts',
     loadChildren: () =>
       import('./posts/posts.module').then((m) => m.PostsModule),
+    canActivate: [AuthGuard],
   },
   {
     path: 'auth',
@@ -28,4 +30,8 @@ const routes: Routes = [
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
-export const routingComponents = [HomeComponent, HeaderComponent, LoadingSpinnerComponent];
+export const routingComponents = [
+  HomeComponent,
+  HeaderComponent,
+  LoadingSpinnerComponent,
+];
