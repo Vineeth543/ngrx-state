@@ -7,6 +7,7 @@ import { AppState } from 'src/app/store/app.state';
 import { updatePost } from '../post-list/state/posts.actions';
 import { getPostById } from '../post-list/state/posts.selector';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { setLoadingSpinner } from 'src/app/store/shared/shared.actions';
 
 @Component({
   selector: 'app-edit-post',
@@ -60,6 +61,7 @@ export class EditPostComponent implements OnInit {
 
   onSubmit(): void {
     if (!this.postForm.valid) return;
+    this.store.dispatch(setLoadingSpinner({ status: true }));
     const post: Post = {
       id: this.postId,
       title: this.postForm.value.title,

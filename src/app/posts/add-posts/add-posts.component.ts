@@ -5,6 +5,7 @@ import { Post } from 'src/app/models/posts.model';
 import { AppState } from 'src/app/store/app.state';
 import { addPost } from '../post-list/state/posts.actions';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { setLoadingSpinner } from 'src/app/store/shared/shared.actions';
 
 @Component({
   selector: 'app-add-posts',
@@ -31,6 +32,7 @@ export class AddPostsComponent {
 
   onAddPost(): void {
     if (!this.postForm.valid) return;
+    this.store.dispatch(setLoadingSpinner({ status: true }));
     const post: Post = {
       title: this.postForm.value.title,
       description: this.postForm.value.description,

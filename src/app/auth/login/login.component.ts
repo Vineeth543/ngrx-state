@@ -3,7 +3,10 @@ import { Component } from '@angular/core';
 import { loginStart } from '../state/auth.action';
 import { AppState } from 'src/app/store/app.state';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { setLoadingSpinner } from 'src/app/store/shared/shared.actions';
+import {
+  setErrorMessage,
+  setLoadingSpinner,
+} from 'src/app/store/shared/shared.actions';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +19,7 @@ export class LoginComponent {
   constructor(private store: Store<AppState>) {}
 
   ngOnInit(): void {
+    this.store.dispatch(setErrorMessage({ message: '' }));
     this.loginForm = new FormGroup({
       email: new FormControl(null, [Validators.required, Validators.email]),
       password: new FormControl(null, [
