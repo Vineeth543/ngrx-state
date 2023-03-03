@@ -17,33 +17,24 @@ export class LoginComponent {
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [
+      email: new FormControl(null, [Validators.required, Validators.email]),
+      password: new FormControl(null, [
         Validators.required,
         Validators.minLength(6),
       ]),
     });
   }
 
-  showEmailErrors(): string | void {
-    const emailForm = this.loginForm.get('email');
-    if (emailForm?.touched && !emailForm.valid) {
-      if (emailForm.errors?.['required']) {
-        return 'Email is required';
+  showFormErrors(field: string): string | void {
+    const targetField = this.loginForm.get(field);
+    if (targetField?.touched && !targetField.valid) {
+      if (targetField.errors?.['required']) {
+        return field[0].toUpperCase() + field.slice(1) + ' is required';
       }
-      if (emailForm.errors?.['email']) {
-        return 'Email should be valid';
+      if (targetField.errors?.['email'] && field === 'email') {
+        return 'Email must be valid';
       }
-    }
-  }
-
-  showPasswordErrors(): string | void {
-    const passwordForm = this.loginForm.get('password');
-    if (passwordForm?.touched && !passwordForm.valid) {
-      if (passwordForm.errors?.['required']) {
-        return 'Password is required';
-      }
-      if (passwordForm.errors?.['minlength']) {
+      if (targetField.errors?.['minlength'] && field === 'password') {
         return 'Password must atleast have 6 characters';
       }
     }

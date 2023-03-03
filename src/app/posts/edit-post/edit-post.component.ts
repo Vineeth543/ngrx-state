@@ -1,11 +1,11 @@
 import { Store } from '@ngrx/store';
+import { Observable, map } from 'rxjs';
+import { Router } from '@angular/router';
 import { Post } from 'src/app/models/posts.model';
+import { Component, OnInit } from '@angular/core';
 import { AppState } from 'src/app/store/app.state';
-import { Observable, map, tap, Subscription } from 'rxjs';
-import { Component, OnDestroy, OnInit } from '@angular/core';
 import { updatePost } from '../post-list/state/posts.actions';
 import { getPostById } from '../post-list/state/posts.selector';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -13,82 +13,46 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   templateUrl: './edit-post.component.html',
   styleUrls: ['./edit-post.component.less'],
 })
-export class EditPostComponent implements OnInit, OnDestroy {
-  post!: Post;
+export class EditPostComponent implements OnInit {
+  postId!: string;
   postForm!: FormGroup;
-  subscription: Subscription[] = new Array<Subscription>();
-  // id: number = 0;
-  // post$: Observable<Post> = new Observable<Post>();
-  // id$: Observable<number> = new Observable<number>();
+  post$!: Observable<Post>;
 
-  constructor(
-    private route: ActivatedRoute,
-    private store: Store<AppState>,
-    private router: Router
-  ) {}
+  constructor(private store: Store<AppState>, private router: Router) {}
 
   ngOnInit(): void {
-    // this.id$ = this.route.paramMap.pipe(
-    //   tap((data) => console.log(data.get('id'))),
-    //   map((params: ParamMap) => (this.id = Number(params.get('id'))))
-    // );
-
-    // this.post$ = this.store.select(getPostById(0)).pipe(
-    //   tap((data) => console.log(data)),
-    //   map((post) => {
-    //     console.log(post);
-    //     this.post = post;
-    //     this.createForm();
-    //     return post;
-    //   })
-    // );
-
-    this.subscription.push(
-      this.route.paramMap.subscribe((params: ParamMap) => {
-        this.subscription.push(
-          this.store
-            .select(getPostById(params.get('id') as string))
-            .subscribe((post) => {
-              this.post = post as Post;
-              this.createForm();
-            })
-        );
+    this.post$ = this.store.select(getPostById).pipe(
+      map((post: Post | undefined) => {
+        this.postId = post?.id as string;
+        this.createForm(post?.title, post?.description);
+        return post as Post;
       })
     );
   }
 
-  createForm() {
+  createForm(title: string | undefined, description: string | undefined): void {
     this.postForm = new FormGroup({
-      title: new FormControl(this.post?.title, [
+      title: new FormControl(title, [
         Validators.required,
         Validators.minLength(6),
       ]),
-      description: new FormControl(this.post?.description, [
+      description: new FormControl(description, [
         Validators.required,
         Validators.minLength(10),
       ]),
     });
   }
 
-  showTitleErrors(): string | void {
-    const titleForm = this.postForm.get('title');
-    if (titleForm?.touched && !titleForm.valid) {
-      if (titleForm.errors?.['required']) {
-        return 'Title is required';
+  showFormErrors(field: string): string | void {
+    const targetField = this.postForm.get(field);
+    if (targetField?.touched && !targetField.valid) {
+      if (targetField.errors?.['required']) {
+        return field[0].toUpperCase() + field.slice(1) + ' is required';
       }
-      if (titleForm.errors?.['minlength']) {
+      if (targetField.errors?.['minlength'] && field === 'title') {
         return 'Title must atleast have 6 characters';
       }
-    }
-  }
-
-  showDescriptionErrors(): string | void {
-    const descriptionForm = this.postForm.get('description');
-    if (descriptionForm?.touched && !descriptionForm.valid) {
-      if (descriptionForm.errors?.['required']) {
-        return 'Description is required';
-      }
-      if (descriptionForm.errors?.['minlength']) {
+      if (targetField.errors?.['minlength'] && field === 'description') {
         return 'Description must atleast have 10 characters';
       }
     }
@@ -96,20 +60,12 @@ export class EditPostComponent implements OnInit, OnDestroy {
 
   onSubmit(): void {
     if (!this.postForm.valid) return;
-    const title = this.postForm.value.title;
-    const description = this.postForm.value.description;
     const post: Post = {
-      id: this.post.id,
-      title,
-      description,
+      id: this.postId,
+      title: this.postForm.value.title,
+      description: this.postForm.value.description,
     };
     this.store.dispatch(updatePost({ post }));
     this.router.navigate(['/posts']);
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.forEach((subscription: Subscription) =>
-      subscription.unsubscribe()
-    );
   }
 }

@@ -5,15 +5,18 @@
     <div class="mb-3">
       <label class="mb-2">Email</label>
       <input type="email" class="form-control" formControlName="email" />
-      <div *ngIf="showEmailErrors()" class="alert alert-danger p-1 mt-2">
-        {{ showEmailErrors() }}
+      <div *ngIf="showFormErrors('email')" class="alert alert-danger p-1 mt-2">
+        {{ showFormErrors("email") }}
       </div>
     </div>
     <div class="mb-3">
       <label class="mb-2">Password</label>
       <input type="password" class="form-control" formControlName="password" />
-      <div *ngIf="showPasswordErrors()" class="alert alert-danger p-1 mt-2">
-        {{ showPasswordErrors() }}
+      <div
+        *ngIf="showFormErrors('password')"
+        class="alert alert-danger p-1 mt-2"
+      >
+        {{ showFormErrors("password") }}
       </div>
     </div>
     <div class="text-center">

@@ -39,25 +39,16 @@ export class AddPostsComponent {
     this.router.navigate(['/posts']);
   }
 
-  showTitleErrors(): string | void {
-    const titleForm = this.postForm.get('title');
-    if (titleForm?.touched && !titleForm.valid) {
-      if (titleForm.errors?.['required']) {
-        return 'Title is required';
+  showFormErrors(field: string): string | void {
+    const targetField = this.postForm.get(field);
+    if (targetField?.touched && !targetField.valid) {
+      if (targetField.errors?.['required']) {
+        return field[0].toUpperCase() + field.slice(1) + ' is required';
       }
-      if (titleForm.errors?.['minlength']) {
+      if (targetField.errors?.['minlength'] && field === 'title') {
         return 'Title must atleast have 6 characters';
       }
-    }
-  }
-
-  showDescriptionErrors(): string | void {
-    const descriptionForm = this.postForm.get('description');
-    if (descriptionForm?.touched && !descriptionForm.valid) {
-      if (descriptionForm.errors?.['required']) {
-        return 'Description is required';
-      }
-      if (descriptionForm.errors?.['minlength']) {
+      if (targetField.errors?.['minlength'] && field === 'description') {
         return 'Description must atleast have 10 characters';
       }
     }
