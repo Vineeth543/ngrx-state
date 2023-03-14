@@ -1,3 +1,4 @@
+import { AuthData } from './auth.state';
 import { User } from 'src/app/models/user.model';
 import { createAction, props } from '@ngrx/store';
 
@@ -12,20 +13,14 @@ export const AUTO_LOGIN_ACTION = '[auth page] auto login';
 
 export const LOGOUT_ACTION = '[auth page] logout';
 
-export const loginStart = createAction(
-  LOGIN_START,
-  props<{ email: string; password: string }>()
-);
+export const loginStart = createAction(LOGIN_START, props<AuthData>());
 
 export const loginSuccess = createAction(
   LOGIN_SUCCESS,
   props<{ user: User; redirect: boolean }>()
 );
 
-export const signupStart = createAction(
-  SIGNUP_START,
-  props<{ email: string; password: string }>()
-);
+export const signupStart = createAction(SIGNUP_START, props<AuthData>());
 
 export const signupSuccess = createAction(
   SIGNUP_SUCCESS,

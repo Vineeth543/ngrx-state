@@ -1,4 +1,5 @@
 import { Store } from '@ngrx/store';
+import { AuthData } from './auth.state';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { AppState } from 'src/app/store/app.state';
@@ -30,7 +31,7 @@ export class AuthEffects {
   login$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loginStart),
-      exhaustMap((action: { email: string; password: string }) => {
+      exhaustMap((action: AuthData) => {
         return this.authService.login(action.email, action.password).pipe(
           map((data) => {
             this.store.dispatch(setLoadingSpinner({ status: false }));
@@ -68,7 +69,7 @@ export class AuthEffects {
   signUp$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(signupStart),
-      exhaustMap((action: { email: string; password: string }) => {
+      exhaustMap((action: AuthData) => {
         return this.authService.signUp(action.email, action.password).pipe(
           map((data) => {
             this.store.dispatch(setLoadingSpinner({ status: false }));
