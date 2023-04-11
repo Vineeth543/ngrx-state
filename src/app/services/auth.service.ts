@@ -52,6 +52,8 @@ export class AuthService {
         return 'Invalid Password';
       case 'EMAIL_EXISTS':
         return 'Email Already Exists';
+      case 'USER_DISABLED':
+        return 'User Disabled. Please contact Admin...';
       default:
         return 'Unknown Error. Please try again later...';
     }
